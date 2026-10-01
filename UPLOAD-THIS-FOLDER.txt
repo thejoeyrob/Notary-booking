@@ -1,0 +1,26 @@
+INDIANA NOTARY SERVICES — FLAT PWA
+
+This package is intentionally 100% flat: there are NO directories inside it.
+Upload every file in this ZIP directly to the ROOT of the GitHub repository.
+Do not upload the containing folder itself.
+
+Vercel:
+- Framework Preset: Other
+- Root Directory: ./
+- Build Command: leave blank
+- Output Directory: leave blank
+- Install Command: leave blank
+- Production domain: indiananotaryservice.click
+
+Backend:
+- Supabase project: Indiana Notary Services
+- Edge backend is already deployed and wired into config.js.
+- Admin code: 2403
+- Setup screen: /setup or setup.html
+
+Email:
+- Booking storage and admin workflow are live without email.
+- To enable automatic email/PDF delivery, add a Resend API key and verified sender in Setup.
+
+Google reviews:
+- The supplied Google Business link is already configured and can be replaced in Setup.
