@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0c1b29">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="assets/styles.css">
+  <title>Admin | Indiana Notary Services</title>
+</head>
+<body class="admin-body">
+<section class="admin-login" id="loginView">
+  <div class="login-panel">
+    <div class="wordmark-mark">INS</div>
+    <div class="kicker" style="margin-top:22px">Private administration</div>
+    <h1>Appointment desk</h1>
+    <p>Enter the administrator code to review requests, confirm appointments and manage availability.</p>
+    <form id="loginForm">
+      <div class="field"><label for="adminPin">Admin code</label><input id="adminPin" type="password" inputmode="numeric" autocomplete="current-password" required></div>
+      <button class="button" style="width:100%;margin-top:16px" type="submit">Open appointment desk</button>
+      <div class="error-text" id="loginError"></div>
+    </form>
+  </div>
+</section>
+
+<div class="admin-app" id="adminApp">
+  <aside class="admin-rail">
+    <div class="admin-brand">Indiana Notary Services<span>Appointment Desk</span></div>
+    <nav class="admin-nav" id="adminNav">
+      <button class="active" data-tab="requests">Requests</button>
+      <button data-tab="confirmed">Confirmed • Unpaid</button>
+      <button data-tab="paid">Confirmed • Paid</button>
+      <button data-tab="calendar">Calendar</button>
+      <button data-tab="settings">Settings</button>
+    </nav>
+    <div class="admin-rail-footer"><a href="index.html" style="color:inherit;text-decoration:none">Public website ↗</a><button id="logoutBtn">Sign out</button></div>
+  </aside>
+  <main class="admin-content">
+    <div class="admin-top">
+      <div><div class="kicker">Administration</div><h1 id="adminTitle">Appointment requests</h1></div>
+      <div class="admin-actions"><span class="meta" id="syncMeta">Loading…</span><button class="button secondary compact" id="refreshBtn">Refresh</button></div>
+    </div>
+
+    <section class="admin-section active" data-section="requests">
+      <div class="statline" id="stats"></div>
+      <div class="list-toolbar"><h2>New and active requests</h2><div class="filter-row"><input id="requestSearch" placeholder="Search name / reference"></div></div>
+      <div class="table-scroll" id="requestsTable"></div>
+    </section>
+
+    <section class="admin-section" data-section="confirmed">
+      <div class="list-toolbar"><h2>Confirmed • awaiting payment</h2><div class="filter-row"><input id="confirmedSearch" placeholder="Search"></div></div>
+      <div class="table-scroll" id="confirmedTable"></div>
+    </section>
+
+    <section class="admin-section" data-section="paid">
+      <div class="list-toolbar"><h2>Confirmed • paid</h2><div class="filter-row"><input id="paidSearch" placeholder="Search"></div></div>
+      <div class="table-scroll" id="paidTable"></div>
+    </section>
+
+    <section class="admin-section" data-section="calendar">
+      <div class="busy-grid">
+        <div class="settings-panel">
+          <h3>Block unavailable time</h3>
+          <form id="busyForm">
+            <div class="field"><label for="busyDate">Date</label><input id="busyDate" type="date" required></div>
+            <div class="field-grid"><div class="field"><label for="busyStart">Start</label><input id="busyStart" type="time" required></div><div class="field"><label for="busyEnd">End</label><input id="busyEnd" type="time" required></div></div>
+            <div class="field"><label for="busyTitle">Label</label><input id="busyTitle" placeholder="Personal / unavailable"></div>
+            <button class="button" type="submit">Block time</button>
+          </form>
+          <div class="hairline" style="margin:26px 0"></div>
+          <h3>Import calendar busy times</h3>
+          <p class="small muted">A web app cannot directly read a private iPhone calendar. Export an <strong>.ics</strong> file from your calendar and import it here; matching event times are added as unavailable slots.</p>
+          <div class="field"><label for="icsFile">ICS file</label><input id="icsFile" type="file" accept=".ics,text/calendar"></div>
+          <button class="button secondary" id="importIcsBtn" type="button">Import busy times</button>
+          <div class="help" id="icsStatus" style="margin-top:8px"></div>
+        </div>
+        <div>
+          <div class="list-toolbar" style="margin-top:0"><h2>Upcoming blocked times</h2></div>
+          <div class="busy-list" id="busyList"></div><div class="list-toolbar" style="margin-top:30px"><h2>Appointment diary</h2></div><div class="busy-list" id="calendarBookings"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-section" data-section="settings">
+      <form id="settingsForm">
+        <div class="settings-grid">
+          <div class="settings-panel">
+            <h3>Business & delivery</h3>
+            <div class="field"><label for="recipientEmail">Forward appointment requests to</label><input id="recipientEmail" type="email"></div>
+            <div class="field"><label for="businessEmail">Public business email</label><input id="businessEmail" type="email"></div>
+            <div class="field"><label for="businessPhone">Public business phone</label><input id="businessPhone"></div>
+            <div class="field"><label for="baseAddress">Private mileage start address</label><input id="baseAddress"><div class="help">Used by the server for distance calculations. Customers see mileage only.</div></div>
+          </div>
+          <div class="settings-panel">
+            <h3>Pricing & hours</h3>
+            <div class="field-grid"><div class="field"><label for="actFee">Notarial act fee</label><input id="actFee" type="number" step="0.01"></div><div class="field"><label for="mileageRate">Mileage rate</label><input id="mileageRate" type="number" step="0.01"></div></div>
+            <div class="field"><label for="maxMiles">Maximum service miles</label><input id="maxMiles" type="number" step="0.1"></div>
+            <div class="field-grid"><div class="field"><label for="weekdayOpen">Weekday open</label><input id="weekdayOpen" type="time"></div><div class="field"><label for="weekdayClose">Weekday close</label><input id="weekdayClose" type="time"></div></div>
+            <div class="field-grid"><div class="field"><label for="weekendOpen">Weekend open</label><input id="weekendOpen" type="time"></div><div class="field"><label for="weekendClose">Weekend close</label><input id="weekendClose" type="time"></div></div>
+            <div class="field"><label for="slotMinutes">Slot interval (minutes)</label><input id="slotMinutes" type="number" step="5" min="5"></div>
+          </div>
+          <div class="settings-panel">
+            <h3>Payment links</h3>
+            <div class="field"><label for="squareUrl">Square payment link</label><input id="squareUrl" type="url" placeholder="https://..."></div>
+            <div class="field"><label for="venmoUrl">Venmo payment link</label><input id="venmoUrl" type="url" placeholder="https://..."></div>
+            <div class="notice">These links are inserted into confirmation messages. They can be changed here without editing the website.</div>
+          </div>
+          <div class="settings-panel">
+            <h3>Confirmation template</h3>
+            <div class="help" style="margin-bottom:8px">Variables: {{name}}, {{reference}}, {{date}}, {{time}}, {{amount}}, {{paymentLink}}, {{service}}, {{location}}</div>
+            <div class="field"><textarea id="confirmTemplate"></textarea></div>
+          </div>
+          <div class="settings-panel">
+            <h3>Alternative-time template</h3>
+            <div class="help" style="margin-bottom:8px">Also supports {{alternative}}.</div>
+            <div class="field"><textarea id="alternativeTemplate"></textarea></div>
+          </div>
+          <div class="settings-panel">
+            <h3>Request receipt template</h3>
+            <div class="field"><textarea id="receiptTemplate"></textarea></div>
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;justify-content:flex-end"><button class="button" type="submit">Save settings</button></div>
+        <div id="settingsStatus" class="help" style="text-align:right;margin-top:8px"></div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<div class="drawer" id="bookingDrawer">
+  <div class="drawer-backdrop" data-close-drawer></div>
+  <div class="drawer-panel"><div class="drawer-head"><div><div class="kicker" id="drawerRef">Booking</div><h2 id="drawerName"></h2></div><button class="close-btn" data-close-drawer>×</button></div><div id="drawerBody"></div></div>
+</div>
+
+<div class="modal" id="responseModal">
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-panel">
+    <h2>Send response</h2>
+    <form id="responseForm">
+      <input type="hidden" id="responseBookingId">
+      <div class="modal-grid">
+        <div class="field"><label for="responseType">Response</label><select id="responseType"><option value="confirm">Confirm appointment</option><option value="alternative">Suggest alternative</option><option value="need_info">Request more information</option><option value="decline">Unavailable / decline</option><option value="custom">Custom response</option></select></div>
+        <div class="field"><label for="responsePayment">Payment link</label><select id="responsePayment"><option value="auto">Use customer's preference</option><option value="square">Square</option><option value="venmo">Venmo</option><option value="none">No payment link</option></select></div>
+        <div class="field"><label for="confirmDate">Confirmed / proposed date</label><input id="confirmDate" type="date"></div>
+        <div class="field"><label for="confirmTime">Confirmed / proposed time</label><input id="confirmTime" type="time"></div>
+        <div class="field full"><label for="responseSubject">Email subject</label><input id="responseSubject"></div>
+        <div class="field full"><label for="responseBody">Message</label><textarea id="responseBody" style="min-height:230px"></textarea></div>
+      </div>
+      <div class="help">A matching branded PDF is attached to the email and a copy of the correspondence is stored with the booking.</div>
+      <div class="modal-actions"><button class="button ghost" type="button" data-close-modal>Cancel</button><button class="button" type="submit">Send & update booking</button></div>
+      <div class="error-text" id="responseError"></div>
+    </form>
+  </div>
+</div>
+<script src="assets/admin.js" defer></script>
+</body>
+</html>

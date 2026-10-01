@@ -1,0 +1,14 @@
+{
+  "name":"Indiana Notary Services",
+  "short_name":"IN Notary",
+  "description":"Mobile notary appointment booking for Indiana Notary Services.",
+  "start_url":"/",
+  "scope":"/",
+  "display":"standalone",
+  "background_color":"#f5f1e9",
+  "theme_color":"#102132",
+  "icons":[
+    {"src":"/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

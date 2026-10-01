@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102132">
+  <meta name="description" content="Request a mobile notary appointment with Indiana Notary Services.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="assets/styles.css">
+  <title>Request an Appointment | Indiana Notary Services</title>
+</head>
+<body>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="wordmark" href="index.html"><span class="wordmark-mark">INS</span><span class="wordmark-text"><strong>Indiana Notary Services</strong><span>Appointment Request</span></span></a>
+    <a class="button secondary compact" href="index.html">Back to website</a>
+  </div>
+</header>
+<main>
+  <section class="page-hero">
+    <div class="shell">
+      <div><div class="kicker">Request an appointment</div><h1 class="display">Choose a time that works for you.</h1><p>Select a day, choose an available 15-minute slot and provide the details needed to review your request.</p></div>
+      <div class="page-note">Your appointment is not final until it has been reviewed and confirmed. Payment is requested electronically after confirmation.</div>
+    </div>
+  </section>
+
+  <section class="booking-wrap">
+    <div class="shell booking-layout">
+      <div class="booking-main" id="bookingMain">
+        <form id="bookingForm" novalidate>
+          <section class="form-section">
+            <div class="section-label"><span class="index">01</span><h2>Date & time</h2></div>
+            <div class="calendar-shell">
+              <div class="calendar-box">
+                <div class="calendar-head"><button type="button" class="icon-btn" id="prevMonth" aria-label="Previous month">‹</button><strong id="monthLabel"></strong><button type="button" class="icon-btn" id="nextMonth" aria-label="Next month">›</button></div>
+                <div class="weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+              </div>
+              <div class="slot-panel">
+                <h3 id="slotHeading">Select a date</h3>
+                <div class="muted small" id="slotHelp">Available times will appear here.</div>
+                <div class="slots" id="slots"></div>
+                <input type="hidden" id="requestedDate" name="requestedDate">
+                <input type="hidden" id="requestedTime" name="requestedTime">
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-label"><span class="index">02</span><h2>Service details</h2></div>
+            <div class="field-grid">
+              <div class="field"><label for="serviceType">Document / service type</label><select id="serviceType" required><option value="">Select a service</option><option>Document Signing</option><option>Loan Documents</option><option>Affidavits</option><option>Vehicle Title Transfer</option><option>Real Estate Documents</option><option>Other</option></select></div>
+              <div class="field"><label for="actCount">Estimated notarial acts</label><input id="actCount" type="number" min="1" value="1" inputmode="numeric" required><div class="help">Used for the estimate only. Final fees depend on the actual acts performed.</div></div>
+              <div class="field full"><label for="serviceNotes">Anything useful to know?</label><textarea id="serviceNotes" placeholder="Document details, access instructions, mobility requirements, witnesses or other relevant information."></textarea></div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-label"><span class="index">03</span><h2>Your details</h2></div>
+            <div class="field-grid">
+              <div class="field"><label for="fullName">Full name</label><input id="fullName" autocomplete="name" required></div>
+              <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" autocomplete="tel" required></div>
+              <div class="field full"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-label"><span class="index">04</span><h2>Meeting location</h2></div>
+            <div class="field-grid">
+              <div class="field full"><label for="address1">Street address</label><input id="address1" autocomplete="street-address" placeholder="Street address" required></div>
+              <div class="field"><label for="city">City</label><input id="city" autocomplete="address-level2" required></div>
+              <div class="field"><label for="state">State</label><input id="state" value="IN" autocomplete="address-level1" required></div>
+              <div class="field"><label for="zip">ZIP code</label><input id="zip" inputmode="numeric" autocomplete="postal-code" required></div>
+              <div class="field"><label>&nbsp;</label><button type="button" class="button secondary" id="distanceBtn">Calculate distance</button></div>
+            </div>
+            <div class="distance-result" id="distanceResult"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-label"><span class="index">05</span><h2>Payment preference</h2></div>
+            <div class="field-grid">
+              <div class="field"><label for="paymentPreference">Preferred method</label><select id="paymentPreference"><option value="Square / card">Square / card</option><option value="Venmo">Venmo</option><option value="No preference">No preference</option></select></div>
+              <div class="field"><label>Payment timing</label><div class="notice">No cash is taken through this form. A payment link is sent after your request has been reviewed and approved.</div></div>
+              <div class="field full"><div class="checkbox-row"><input type="checkbox" id="consent" required><label for="consent">I understand this is an appointment request, not a confirmed appointment, and I consent to being contacted by email or phone about this request.</label></div></div>
+            </div>
+          </section>
+        </form>
+        <div class="success-screen" id="successScreen">
+          <div class="kicker">Request received</div>
+          <h2>Thank you. Your appointment request is in review.</h2>
+          <p class="muted">A request receipt has been prepared for your email. Your appointment becomes confirmed only after you receive an approval message.</p>
+          <div class="reference" id="successReference"></div>
+          <div class="notice success" id="successEmailNote"></div>
+          <div style="margin-top:24px"><a class="button" href="booking.html">Request another appointment</a></div>
+        </div>
+      </div>
+
+      <aside class="booking-summary">
+        <div class="kicker">Estimated appointment</div>
+        <h2>Request summary</h2>
+        <div class="summary-row"><span>Date</span><strong id="summaryDate">—</strong></div>
+        <div class="summary-row"><span>Time</span><strong id="summaryTime">—</strong></div>
+        <div class="summary-row"><span>Notarial acts</span><strong id="summaryActs">1 × $10.00</strong></div>
+        <div class="summary-row"><span>Travel</span><strong id="summaryTravel">Calculate location</strong></div>
+        <div class="summary-row total"><span>Estimated total</span><strong id="summaryTotal">$10.00</strong></div>
+        <div class="help" style="margin-top:12px">Pricing is an estimate. Final charges depend on the actual notarial acts performed and confirmed meeting location.</div>
+        <div class="summary-actions"><button class="button" id="submitBooking" type="button">Submit request <span>→</span></button><a class="button ghost" href="tel:+13177287537">Call instead</a></div>
+        <div class="error-text" id="formError"></div>
+      </aside>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><div class="shell footer-grid"><div><div class="footer-brand">Indiana Notary Services</div><div class="footer-copy">Notarial services only. No legal advice or legal representation is provided.</div></div><nav class="footer-nav"><a href="index.html">Website</a><a href="admin.html">Admin</a></nav></div></footer>
+<script src="assets/booking.js" defer></script>
+</body>
+</html>
